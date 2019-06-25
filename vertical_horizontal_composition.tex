@@ -1,0 +1,158 @@
+\documentclass[a4paper]{amsart}
+
+%-------packages-------------------------%
+\usepackage{amsmath}
+\usepackage{xypic}  				%for strange reason I need this to make the two cell diagrams				
+\usepackage[2cell]{xy} 			%for commutative diagrams%
+
+\usepackage{color,hyperref}
+\definecolor{darkblue}{rgb}{0.0,0.0,0.3}                      %pdf book marks the way I like%
+\hypersetup{pdftex=true, colorlinks=true, breaklinks=true, linkcolor=darkblue, menucolor=darkblue, pagecolor=darkblue, urlcolor=darkblue}
+%-----------style------------------------%
+
+\addtolength{\parskip}{\baselineskip} %Absätze im Text werden auch tatsächlich zu Absätzen%
+
+
+%----------new--commands-----------------%
+
+\newcommand{\C}{\mathcal{C}}
+\newcommand{\D}{\mathcal{D}}
+\newcommand{\F}{\mathcal{F}}
+\newcommand{\G}{\mathcal{G}}
+\newcommand{\ve}{\varepsilon}
+
+% the following code will uplift the \maketitle title. In standard it is way too low.
+\makeatletter % wegen @ in den Befehsnamen
+\renewcommand*\@maketitle{%
+  \normalfont\normalsize
+  \@adminfootnotes
+  \@mkboth{\@nx\shortauthors}{\@nx\shorttitle}%
+% (SCHW) auskommentiert:  \global\topskip42\p@\relax % 5.5pc   "   "   "     "     "
+  \@settitle
+  \ifx\@empty\authors \else \@setauthors \fi
+  \ifx\@empty\@dedicatory
+  \else
+    \baselineskip18\p@
+    \vtop{\centering{\footnotesize\itshape\@dedicatory\@@par}%
+      \global\dimen@i\prevdepth}\prevdepth\dimen@i
+  \fi
+  \@setabstract
+  \normalsize
+  \if@titlepage
+    \newpage
+  \else
+    \dimen@34\p@ \advance\dimen@-\baselineskip
+    \vskip\dimen@\relax
+  \fi
+} % end \@maketitle
+\makeatother
+
+
+
+
+
+\begin{document}
+
+%------------header----------------------%
+
+\title{Vertical and horizontal composition}
+%\author{Felix Hoffmann}% %for now I decided against it%
+
+\begin{abstract}
+There are two ways to connect natural transformations between functors. One is called vertical composition and the other is called horizontal composition. Both are explained in this article.
+\end{abstract}
+
+\maketitle
+\pagestyle{empty} %no pagenumbers and titles%
+\thispagestyle{empty}
+
+%-------end header-----------------------%
+
+
+Given natural transformations $\eta : F \to G$, $\ve: G \to H$ 
+%
+%
+\Large
+%
+\begin{equation*}
+%
+\UseAllTwocells
+\xymatrix @+=3cm{\C \ruppertwocell<9>^{F}{<-2.5>_{\mbox{ } \eta}} \ar[r]|G \rlowertwocell<-9>_{H}{<2.5>^{\mbox{ }\ve}} & \D}
+%
+\end{equation*}
+%
+\normalsize
+%
+%
+%
+we obtain a natural transformation $\ve \eta : F \to H$ with components $(\ve \eta)_x := \ve_x \circ \eta_x$.
+
+Then $\ve \eta$ is called \emph{vertical composition} of $\eta$ and $\ve$. To see that $\ve \eta$ is indeed a natural transforamation one only needs to consult the following diagram:
+
+\bigskip
+
+\begin{minipage}{0.45\textwidth}
+\begin{equation*}
+\xymatrix @+=1.4cm{F(X) \ar[r]^{F(f)} \ar[d]_{\eta_X} &F(Y)\ar[d]_{\eta_Y} \\
+                   G(X) \ar[r]^{G(f)}\ar[d]_{\ve_X} &G(Y) \ar[d]_{\ve_Y}  \\
+                   H(X) \ar[r]^{H(f)}               &H(Y)}
+\end{equation*}
+\end{minipage}%
+\begin{minipage}{0.45\textwidth}
+\begin{align*}
+(\ve \eta)_Y \circ F(f) &= \ve_Y \circ \eta_Y \circ F(f) \\
+                        &= \ve_Y \circ G(f) \circ \eta_X \\
+                        &= H(f) \circ \ve_X \circ \eta_X \\
+                        &= H(f) \circ (\ve \eta)_X
+\end{align*}
+\end{minipage}
+
+\bigskip
+\bigskip
+
+Given natural transformations
+
+\begin{equation*}
+\UseAllTwocells
+\xymatrix @+=3cm{\C \ruppertwocell<4.5>^{F}{<0>_{\eta}} \rlowertwocell<-4.5>_{G}{\omit} & \D \ruppertwocell<4.5>^{J}{<0>_\ve}	\rlowertwocell<-4.5>_{K}{\omit} & \mathcal{E}}
+\end{equation*}
+\bigskip
+
+$\eta: F \to G$, $\ve: J \to K$ we obtain a natural transformation $\ve \eta: JF \to KG$ by \emph{horizontal composition}:
+
+The components of $\ve \eta$ are given by 
+\begin{equation*}
+(\ve \eta)_X = \ve_{G(X)} \circ  J(\eta_X)
+\end{equation*}
+
+\small
+\begin{minipage}{0.45\textwidth}
+\begin{equation*}
+\xymatrix @+=1.4cm{JF(X) \ar[r]^{JF(f)} \ar[d]_{J(\eta_X)}  & JF(Y) \ar[d]^{J(\eta_Y)} \\
+								 	 JG(X) \ar[r]^{JG(f)} \ar[d]_{\ve_{G(X)}} & JG(Y) \ar[d]^{\ve_{G(Y)}}\\
+					         KG(X) \ar[r]^{KG(f)}										 &KG(Y)												}
+\end{equation*}
+\end{minipage}%
+\begin{minipage}{0.45\textwidth}
+
+\begin{align*}
+(\ve \eta)_Y \circ JF(f) &= \ve_{G(Y)} \circ J(\eta_Y) \circ JF(f)\\
+												 &= \ve_{G(Y)} \circ J(\eta_Y \circ F(f) 		\\
+												 &= \ve_{G(Y)} \circ JG(f) \circ J(\eta_X)  \\
+												 &= KG(f) \circ \ve_{G(X)} J(\eta_X)				\\
+												 &= KG(f) \circ (\ve \eta)_X \end{align*}
+
+\normalsize												 
+\end{minipage}
+
+\bigskip
+
+\bibliographystyle{amsalpha}
+\begin{thebibliography}{00}
+\bibitem[PlanMath]{PlanMath} \href{http://planetmath.org/?method=js&from=objects&id=11112&op=getobj}{PlanetMath.org - compositions of natural transformations}  
+\end{thebibliography}
+
+
+\end{document}
+
+
